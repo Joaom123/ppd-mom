@@ -1,55 +1,54 @@
 package ifce.ppd.mom.ppdmom.subpub;
 
-import javax.jms.*;
 import org.apache.activemq.ActiveMQConnection;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
-public class Produtor
-{
+import javax.jms.*;
 
-	/*
-	 * URL do servidor JMS. DEFAULT_BROKER_URL indica que o servidor está em localhost
-	 * 
-	 */	
-	private static String url = ActiveMQConnection.DEFAULT_BROKER_URL;
+public class Produtor {
 
-	private static String queueName = "FILA_EXEMPLO";
+    /*
+     * URL do servidor JMS. DEFAULT_BROKER_URL indica que o servidor está em localhost
+     *
+     */
+    private static final String url = ActiveMQConnection.DEFAULT_BROKER_URL;
 
-	public static void main(String[] args) throws JMSException
-	{
+    private static final String queueName = "FILA_EXEMPLO";
 
-		/*
-		 * Estabelecendo conexão com o Servidor JMS
-		 */		
-		ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(url);
-		Connection connection = connectionFactory.createConnection();
-		connection.start();
+    public static void main(String[] args) throws JMSException {
 
-		/*
-		 * Criando Session 
-		 */
-		Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+        /*
+         * Estabelecendo conexão com o Servidor JMS
+         */
+        ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(url);
+        Connection connection = connectionFactory.createConnection();
+        connection.start();
 
-		/*
-		 * Criando Queue
-		 */
-		Destination destination = session.createQueue(queueName);
+        /*
+         * Criando Session
+         */
+        Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
-		/*
-		 * Criando Produtor
-		 */		
-		MessageProducer producer = session.createProducer(destination);
-		TextMessage message = session.createTextMessage("Mensagem do Produtor.");
+        /*
+         * Criando Queue
+         */
+        Destination destination = session.createQueue(queueName);
 
-		/*
-		 * Enviando Mensagem
-		 */
-		producer.send(message);
+        /*
+         * Criando Produtor
+         */
+        MessageProducer producer = session.createProducer(destination);
+        TextMessage message = session.createTextMessage("Mensagem do Produtor.");
 
-		System.out.println("Messagem: '" + message.getText() + ", Enviada para a Fila");
+        /*
+         * Enviando Mensagem
+         */
+        producer.send(message);
 
-		producer.close();
-                session.close();
-		connection.close();
-	}
+        System.out.println("Messagem: '" + message.getText() + ", Enviada para a Fila");
+
+        producer.close();
+        session.close();
+        connection.close();
+    }
 }
