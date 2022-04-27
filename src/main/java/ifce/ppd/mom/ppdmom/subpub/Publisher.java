@@ -1,4 +1,4 @@
-package ifce.ppd.mom.ppdmom;
+package ifce.ppd.mom.ppdmom.subpub;
 
 import javax.jms.*;
 import org.apache.activemq.ActiveMQConnection;
