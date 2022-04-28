@@ -1,14 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="ifce.ppd.mom.ppdmom.controllers.ClientController"
-            prefHeight="400.0" prefWidth="600.0">
 
+<AnchorPane prefHeight="601.0" prefWidth="886.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ifce.ppd.mom.ppdmom.controllers.ClientController">
+   <children>
+      <TextArea fx:id="textArea" layoutX="637.0" layoutY="56.0" prefHeight="538.0" prefWidth="249.0" style="-fx-background-color: #ccc;" />
+      <Text layoutX="669.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Informaçoes dos Sensores">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="247.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome do Cliente:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text fx:id="name" layoutX="372.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <CheckBox fx:id="temperatureCheckBox" layoutX="84.0" layoutY="150.0" mnemonicParsing="false" onAction="#onSelectTemperatureCheckBox" text="Temperatura">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </CheckBox>
+      <CheckBox fx:id="speedCheckBox" layoutX="84.0" layoutY="182.0" mnemonicParsing="false" text="Velocidade">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </CheckBox>
+      <CheckBox fx:id="humidityCheckBox" layoutX="84.0" layoutY="215.0" mnemonicParsing="false" text="Umidade">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </CheckBox>
+      <Text layoutX="84.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Topicos que o cliente deseja subescrever">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+   </children>
 </AnchorPane>

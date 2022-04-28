@@ -1,11 +1,9 @@
 package ifce.ppd.mom.ppdmom.models;
 
 public class Client {
-    private final String name;
-    private final Sensor[] sensors;
+    private String name;
 
-    public Client(String name, Sensor[] sensors) {
+    public Client(String name) {
         this.name = name;
-        this.sensors = sensors;
     }
 }

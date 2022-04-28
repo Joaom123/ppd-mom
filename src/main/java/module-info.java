@@ -8,6 +8,10 @@ module ifce.ppd.mom.ppdmom {
 
     opens ifce.ppd.mom.ppdmom to javafx.fxml;
     exports ifce.ppd.mom.ppdmom;
-    exports ifce.ppd.mom.ppdmom.subpub;
-    opens ifce.ppd.mom.ppdmom.subpub to javafx.fxml;
+    exports ifce.ppd.mom.ppdmom.server;
+    opens ifce.ppd.mom.ppdmom.server to javafx.fxml;
+    exports ifce.ppd.mom.ppdmom.controllers;
+    opens ifce.ppd.mom.ppdmom.controllers to javafx.fxml;
+    exports ifce.ppd.mom.ppdmom.server.legado;
+    opens ifce.ppd.mom.ppdmom.server.legado to javafx.fxml;
 }
