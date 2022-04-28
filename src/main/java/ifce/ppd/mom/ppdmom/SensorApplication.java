@@ -1,56 +1,71 @@
 package ifce.ppd.mom.ppdmom;
 
+import javax.jms.*;
+
+import ifce.ppd.mom.ppdmom.models.Sensor;
 import org.apache.activemq.ActiveMQConnection;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
-import javax.jms.*;
+import java.util.Random;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 
 public class SensorApplication {
+    static Sensor sensor;
+    static Connection connection;
+    static Session session;
+
     public static void main(String[] args) throws JMSException {
-        thread(new SensorProducer(), false);
-    }
+        String sensorType = args[0];
+        String sensorName = args[1];
+        //TODO: Adicionar erro dos argumentos
 
-    public static void thread(Runnable runnable, boolean daemon) {
-        Thread brokerThread = new Thread(runnable);
-        brokerThread.setDaemon(daemon);
-        brokerThread.start();
-    }
+        sensor = new Sensor(sensorName, sensorType, 0, 100);
+        //if(sensorType.equals("TEMPERATURE"))
 
-    public static class SensorProducer implements Runnable {
-        public void run() {
+        // Init connection
+        ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(ActiveMQConnection.DEFAULT_BROKER_URL);
+        connection = connectionFactory.createConnection();
+        connection.start();
+
+        // Create a Session
+        session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+
+        // Create the destination (Topic)
+        Destination destination = session.createTopic(sensorType);
+
+        // Create a MessageProducer from the Session to the Topic
+        MessageProducer producer = session.createProducer(destination);
+        producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
+
+        ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
+        exec.scheduleAtFixedRate(() -> {
+            Random rand = new Random();
+            int sensorValue = rand.nextInt(200) - 100;
+            System.out.println("Valor atual do sensor: " + sensorValue);
+            sensor.setValue(sensorValue);
+
+            if (sensor.valueIsLessThanMinumum() || sensor.valueIsGreaterThanMaximum()) {
+                try {
+                    ObjectMessage objectMessage = session.createObjectMessage(sensor);
+                    producer.send(objectMessage);
+                } catch (JMSException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }, 1, 1, TimeUnit.SECONDS);
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            System.out.println("Encerrando conexão!");
             try {
-                ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(ActiveMQConnection.DEFAULT_BROKER_URL);
-                Connection connection = connectionFactory.createConnection();
-                connection.start();
-
-                // Create a Session
-                Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-                System.out.println("conexão iniciada");
-
-                // Create the destination (Topic or Queue)
-                Destination destination = session.createTopic("velocidade");
-
-                // Create a MessageProducer from the Session to the Topic or Queue
-                MessageProducer producer = session.createProducer(destination);
-                producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
-
-                // Create a messages
-                String text = "Hello world! From: " + Thread.currentThread().getName() + " : " + this.hashCode();
-                TextMessage message = session.createTextMessage(text);
-
-                // Tell the producer to send the message
-                System.out.println("Sent message: "+ message.hashCode() + " : " + Thread.currentThread().getName());
-                producer.send(message);
-
-                // Clean up
                 session.close();
                 connection.close();
+            } catch (JMSException e) {
+                throw new RuntimeException(e);
             }
-            catch (JMSException e) {
-                System.out.println("Caught: " + e);
-                e.printStackTrace();
-            }
-        }
+        }));
     }
 }
 

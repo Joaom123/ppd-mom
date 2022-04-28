@@ -1,6 +1,8 @@
 package ifce.ppd.mom.ppdmom.models;
 
-public class Sensor {
+import java.io.Serializable;
+
+public class Sensor implements Serializable {
     private String name;
     private String type;
     private int minValue;
@@ -12,5 +14,21 @@ public class Sensor {
         this.type = type;
         this.minValue = minValue;
         this.maxValue = maxValue;
+    }
+
+    public int getMinValue() {
+        return minValue;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
+    }
+
+    public boolean valueIsLessThanMinumum() {
+        return value < maxValue;
+    }
+
+    public boolean valueIsGreaterThanMaximum() {
+        return value > maxValue;
     }
 }
