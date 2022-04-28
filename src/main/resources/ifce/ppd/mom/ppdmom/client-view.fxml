@@ -8,18 +8,18 @@
 
 <AnchorPane prefHeight="601.0" prefWidth="886.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ifce.ppd.mom.ppdmom.controllers.ClientController">
    <children>
-      <TextArea fx:id="textArea" layoutX="436.0" layoutY="38.0" prefHeight="556.0" prefWidth="450.0" style="-fx-background-color: #ccc;" />
-      <Text layoutX="569.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Informaçoes dos Sensores">
+      <TextArea fx:id="textArea" layoutX="373.0" layoutY="38.0" prefHeight="556.0" prefWidth="513.0" style="-fx-background-color: #ccc;" />
+      <Text layoutX="537.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Informaçoes dos Sensores">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
-      <Text layoutX="82.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome do Cliente:">
+      <Text layoutX="133.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID Cliente:">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
-      <Text fx:id="name" layoutX="213.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+      <Text fx:id="name" layoutX="210.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
          <font>
             <Font size="14.0" />
          </font>

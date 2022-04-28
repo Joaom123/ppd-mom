@@ -14,6 +14,7 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 import javax.jms.*;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.UUID;
 
 public class ClientController implements Initializable {
     Destination temperatureDestination;
@@ -104,7 +105,7 @@ public class ClientController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        name.setText("João Marcus");
+        name.setText(UUID.randomUUID().toString().substring(0, 5));
         // Connecting to JMS Server
         try {
             ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(ActiveMQConnection.DEFAULT_BROKER_URL);
@@ -142,14 +143,16 @@ public class ClientController implements Initializable {
                     Sensor sensor = (Sensor) objectMessage.getObject();
                     if (sensor.valueIsLessThanMinimum()) {
                         Platform.runLater (() -> {
-                            textArea.appendText("Dados do sensor: Tipo: " + translate(sensor.getType()) + " | Nome: " + sensor.getName() + "\n");
+                            textArea.appendText("Dados do sensor:\n");
+                            textArea.appendText("Tipo: " + translate(sensor.getType()) + " | Nome: " + sensor.getName() + "\n");
                             textArea.appendText("Valor mínimo: " + sensor.getMinValue() + " | Valor atual: " + sensor.getValue() + "\n");
                             textArea.appendText("----------------------------------------\n");
                         });
 
                     } else {
                         Platform.runLater (() -> {
-                            textArea.appendText("Dados do sensor: Tipo: " + translate(sensor.getType()) + " | Nome: " + sensor.getName() + "\n");
+                            textArea.appendText("Dados do sensor:\n");
+                            textArea.appendText("Tipo: " + translate(sensor.getType()) + " | Nome: " + sensor.getName() + "\n");
                             textArea.appendText("Valor máximo: " + sensor.getMaxValue() + " | Valor atual: " + sensor.getValue() + "\n");
                             textArea.appendText("----------------------------------------\n");
                         });

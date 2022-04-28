@@ -18,9 +18,21 @@ public class SensorApplication {
     static Session session;
 
     public static void main(String[] args) throws JMSException {
+        if (args.length != 2) {
+            System.err.println ("Entre com os argumentos corretamente!");
+            System.err.println("1º - Tipo do sensor 2º - Nome do sensor");
+            System.exit(0);
+        }
+
         String sensorType = args[0];
         String sensorName = args[1];
-        //TODO: Adicionar erro dos argumentos
+
+        // Check if the arg is correct
+        if (!sensorType.equals("TEMPERATURE") && !sensorType.equals("HUMIDITY") && !sensorType.equals("SPEED")) {
+            System.err.println ("Tipo de sensor inválido!");
+            System.err.println("Tipos de sensores: TEMPERATURE | HUMIDITY | SPEED");
+            System.exit(0);
+        }
 
         sensor = new Sensor(sensorName, sensorType, 0, 100);
         //if(sensorType.equals("TEMPERATURE"))
