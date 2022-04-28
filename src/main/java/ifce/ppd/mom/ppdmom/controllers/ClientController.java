@@ -126,13 +126,13 @@ public class ClientController implements Initializable {
     private class QueueMessageListener implements MessageListener {
         private String translate(String type) {
             if (type.equals("TEMPERATURE"))
-                return "temperatura";
+                return "Temperatura";
 
             if (type.equals("HUMIDITY"))
-                return "umidade";
+                return "Umidade";
 
             if (type.equals("SPEED"))
-                return "velocidade";
+                return "Velocidade";
             return "";
         }
 
