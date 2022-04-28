@@ -3,10 +3,10 @@ package ifce.ppd.mom.ppdmom.models;
 import java.io.Serializable;
 
 public class Sensor implements Serializable {
-    private String name;
-    private String type;
-    private int minValue;
-    private int maxValue;
+    private final String name;
+    private final String type;
+    private final int minValue;
+    private final int maxValue;
     private int value;
 
     public Sensor(String name, String type, int minValue, int maxValue) {
@@ -20,12 +20,28 @@ public class Sensor implements Serializable {
         return minValue;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public int getMaxValue() {
+        return maxValue;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
     public void setValue(int value) {
         this.value = value;
     }
 
-    public boolean valueIsLessThanMinumum() {
-        return value < maxValue;
+    public boolean valueIsLessThanMinimum() {
+        return value < minValue;
     }
 
     public boolean valueIsGreaterThanMaximum() {

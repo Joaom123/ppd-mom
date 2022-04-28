@@ -43,11 +43,11 @@ public class SensorApplication {
         ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
         exec.scheduleAtFixedRate(() -> {
             Random rand = new Random();
-            int sensorValue = rand.nextInt(200) - 100;
+            int sensorValue = rand.nextInt(300) - 100;
             System.out.println("Valor atual do sensor: " + sensorValue);
             sensor.setValue(sensorValue);
 
-            if (sensor.valueIsLessThanMinumum() || sensor.valueIsGreaterThanMaximum()) {
+            if (sensor.valueIsLessThanMinimum() || sensor.valueIsGreaterThanMaximum()) {
                 try {
                     ObjectMessage objectMessage = session.createObjectMessage(sensor);
                     producer.send(objectMessage);
@@ -55,7 +55,7 @@ public class SensorApplication {
                     throw new RuntimeException(e);
                 }
             }
-        }, 1, 1, TimeUnit.SECONDS);
+        }, 1, 5, TimeUnit.SECONDS);
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             System.out.println("Encerrando conexão!");

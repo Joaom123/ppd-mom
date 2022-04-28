@@ -1,5 +1,7 @@
 package ifce.ppd.mom.ppdmom.controllers;
 
+import ifce.ppd.mom.ppdmom.models.Sensor;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,6 +19,10 @@ public class ClientController implements Initializable {
     Destination temperatureDestination;
     Destination speedDestination;
     Destination humidityDestination;
+    MessageConsumer temperatureMessageConsumer;
+    MessageConsumer speedMessageConsumer;
+    MessageConsumer humidityMessageConsumer;
+    Session session;
 
     @FXML
     public Text name;
@@ -31,13 +37,68 @@ public class ClientController implements Initializable {
     public CheckBox humidityCheckBox;
 
     @FXML
-    public TextArea textArea;
+    private TextArea textArea;
 
-    public void onSelectTemperatureCheckBox(ActionEvent actionEvent) {
+    public void onSelectTemperatureCheckBox(ActionEvent actionEvent) throws JMSException {
         if (temperatureCheckBox.isSelected()) {
             // subscribe
+            temperatureMessageConsumer = session.createConsumer(temperatureDestination);
+            temperatureMessageConsumer.setMessageListener(new QueueMessageListener());
+            Platform.runLater(() -> {
+                textArea.appendText("Tópico de temperatura foi assinado!\n");
+                textArea.appendText("----------------------------------------\n");
+            });
         } else {
             // unsubscribe
+            if (temperatureMessageConsumer != null) {
+                temperatureMessageConsumer.close();
+                Platform.runLater(() -> {
+                    textArea.appendText("Incrição no tópico de temperatura foi cancelado!\n");
+                    textArea.appendText("----------------------------------------\n");
+                });
+            }
+        }
+    }
+
+    public void onSelectHumidityCheckBox(ActionEvent actionEvent) throws JMSException {
+        if (humidityCheckBox.isSelected()) {
+            // subscribe
+            humidityMessageConsumer = session.createConsumer(humidityDestination);
+            humidityMessageConsumer.setMessageListener(new QueueMessageListener());
+            Platform.runLater(() -> {
+                textArea.appendText("Tópico de umidade foi assinado!\n");
+                textArea.appendText("----------------------------------------\n");
+            });
+        } else {
+            // unsubscribe
+            if (humidityMessageConsumer != null) {
+                humidityMessageConsumer.close();
+                Platform.runLater(() -> {
+                    textArea.appendText("Incrição no tópico de umidade foi cancelado!\n");
+                    textArea.appendText("----------------------------------------\n");
+                });
+            }
+        }
+    }
+
+    public void onSelectSpeedCheckBox(ActionEvent actionEvent) throws JMSException {
+        if (speedCheckBox.isSelected()) {
+            // subscribe
+            speedMessageConsumer = session.createConsumer(speedDestination);
+            speedMessageConsumer.setMessageListener(new QueueMessageListener());
+            Platform.runLater(() -> {
+                textArea.appendText("Tópico de velocidade foi assinado!\n");
+                textArea.appendText("----------------------------------------\n");
+            });
+        } else {
+            // unsubscribe
+            if (speedMessageConsumer != null) {
+                speedMessageConsumer.close();
+                Platform.runLater(() -> {
+                    textArea.appendText("Incrição no tópico de velocidade foi cancelado!\n");
+                    textArea.appendText("----------------------------------------\n");
+                });
+            }
         }
     }
 
@@ -50,16 +111,55 @@ public class ClientController implements Initializable {
             Connection connection = connectionFactory.createConnection();
             connection.start();
 
-            Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-            speedDestination = session.createTopic("velocidade");
-            temperatureDestination = session.createTopic("temperatura");
-            humidityDestination = session.createTopic("umidade");
+            session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
-            MessageConsumer speedConsumer = session.createConsumer(speedDestination);
-            Message message = speedConsumer.receive();
-            System.out.println(message);
+            // Create the topics
+            speedDestination = session.createTopic("SPEED");
+            temperatureDestination = session.createTopic("TEMPERATURE");
+            humidityDestination = session.createTopic("HUMIDITY");
         } catch (JMSException e) {
             throw new RuntimeException(e);
         }
     }
+
+    private class QueueMessageListener implements MessageListener {
+        private String translate(String type) {
+            if (type.equals("TEMPERATURE"))
+                return "temperatura";
+
+            if (type.equals("HUMIDITY"))
+                return "umidade";
+
+            if (type.equals("SPEED"))
+                return "velocidade";
+            return "";
+        }
+
+        @Override
+        public void onMessage(Message message) {
+            try {
+                if (message instanceof ObjectMessage objectMessage) {
+                    Sensor sensor = (Sensor) objectMessage.getObject();
+                    if (sensor.valueIsLessThanMinimum()) {
+                        Platform.runLater (() -> {
+                            textArea.appendText("Dados do sensor: Tipo: " + translate(sensor.getType()) + " | Nome: " + sensor.getName() + "\n");
+                            textArea.appendText("Valor mínimo: " + sensor.getMinValue() + " | Valor atual: " + sensor.getValue() + "\n");
+                            textArea.appendText("----------------------------------------\n");
+                        });
+
+                    } else {
+                        Platform.runLater (() -> {
+                            textArea.appendText("Dados do sensor: Tipo: " + translate(sensor.getType()) + " | Nome: " + sensor.getName() + "\n");
+                            textArea.appendText("Valor máximo: " + sensor.getMaxValue() + " | Valor atual: " + sensor.getValue() + "\n");
+                            textArea.appendText("----------------------------------------\n");
+                        });
+
+                    }
+                }
+            } catch (JMSException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
 }
