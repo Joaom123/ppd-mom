@@ -4,13 +4,9 @@ import org.apache.activemq.ActiveMQConnection;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 import javax.jms.*;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import java.util.Properties;
 
 public class SensorApplication {
-    public static void main(String[] args) throws JMSException, NamingException {
+    public static void main(String[] args) throws JMSException {
         thread(new SensorProducer(), false);
     }
 
@@ -50,7 +46,7 @@ public class SensorApplication {
                 session.close();
                 connection.close();
             }
-            catch (Exception e) {
+            catch (JMSException e) {
                 System.out.println("Caught: " + e);
                 e.printStackTrace();
             }
