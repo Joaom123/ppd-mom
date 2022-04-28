@@ -3,46 +3,50 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
-
-<AnchorPane prefHeight="601.0" prefWidth="886.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ifce.ppd.mom.ppdmom.controllers.ClientController">
-   <children>
-      <TextArea fx:id="textArea" layoutX="373.0" layoutY="38.0" prefHeight="556.0" prefWidth="513.0" style="-fx-background-color: #ccc;" />
-      <Text layoutX="537.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Informaçoes dos Sensores">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <Text layoutX="133.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID Cliente:">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <Text fx:id="name" layoutX="210.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <CheckBox fx:id="temperatureCheckBox" layoutX="42.0" layoutY="91.0" mnemonicParsing="false" onAction="#onSelectTemperatureCheckBox" text="Temperatura">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </CheckBox>
-      <CheckBox fx:id="speedCheckBox" layoutX="42.0" layoutY="123.0" mnemonicParsing="false" onAction="#onSelectSpeedCheckBox" text="Velocidade">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </CheckBox>
-      <CheckBox fx:id="humidityCheckBox" layoutX="42.0" layoutY="156.0" mnemonicParsing="false" onAction="#onSelectHumidityCheckBox" text="Umidade">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </CheckBox>
-      <Text layoutX="42.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Topicos que o cliente deseja subescrever">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-   </children>
+<?import javafx.scene.text.*?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="601.0" prefWidth="886.0" style="-fx-background-color: #fff;"
+            xmlns="http://javafx.com/javafx/17" fx:controller="ifce.ppd.mom.ppdmom.controllers.ClientController">
+    <children>
+        <TextArea fx:id="textArea" layoutX="373.0" layoutY="38.0" prefHeight="556.0" prefWidth="513.0"
+                  style="-fx-background-color: #ccc;"/>
+        <Text layoutX="537.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Informaçoes dos Sensores">
+            <font>
+                <Font size="14.0"/>
+            </font>
+        </Text>
+        <Text layoutX="133.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID Cliente:">
+            <font>
+                <Font size="14.0"/>
+            </font>
+        </Text>
+        <Text fx:id="name" layoutX="210.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+            <font>
+                <Font size="14.0"/>
+            </font>
+        </Text>
+        <CheckBox fx:id="temperatureCheckBox" layoutX="42.0" layoutY="91.0" mnemonicParsing="false"
+                  onAction="#onSelectTemperatureCheckBox" text="Temperatura">
+            <font>
+                <Font size="14.0"/>
+            </font>
+        </CheckBox>
+        <CheckBox fx:id="speedCheckBox" layoutX="42.0" layoutY="123.0" mnemonicParsing="false"
+                  onAction="#onSelectSpeedCheckBox" text="Velocidade">
+            <font>
+                <Font size="14.0"/>
+            </font>
+        </CheckBox>
+        <CheckBox fx:id="humidityCheckBox" layoutX="42.0" layoutY="156.0" mnemonicParsing="false"
+                  onAction="#onSelectHumidityCheckBox" text="Umidade">
+            <font>
+                <Font size="14.0"/>
+            </font>
+        </CheckBox>
+        <Text layoutX="42.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0"
+              text="Topicos que o cliente deseja subescrever">
+            <font>
+                <Font size="14.0"/>
+            </font>
+        </Text>
+    </children>
 </AnchorPane>

@@ -17,6 +17,14 @@ import java.util.ResourceBundle;
 import java.util.UUID;
 
 public class ClientController implements Initializable {
+    @FXML
+    public Text name;
+    @FXML
+    public CheckBox temperatureCheckBox;
+    @FXML
+    public CheckBox speedCheckBox;
+    @FXML
+    public CheckBox humidityCheckBox;
     Destination temperatureDestination;
     Destination speedDestination;
     Destination humidityDestination;
@@ -24,19 +32,6 @@ public class ClientController implements Initializable {
     MessageConsumer speedMessageConsumer;
     MessageConsumer humidityMessageConsumer;
     Session session;
-
-    @FXML
-    public Text name;
-
-    @FXML
-    public CheckBox temperatureCheckBox;
-
-    @FXML
-    public CheckBox speedCheckBox;
-
-    @FXML
-    public CheckBox humidityCheckBox;
-
     @FXML
     private TextArea textArea;
 
@@ -142,7 +137,7 @@ public class ClientController implements Initializable {
                 if (message instanceof ObjectMessage objectMessage) {
                     Sensor sensor = (Sensor) objectMessage.getObject();
                     if (sensor.valueIsLessThanMinimum()) {
-                        Platform.runLater (() -> {
+                        Platform.runLater(() -> {
                             textArea.appendText("Dados do sensor:\n");
                             textArea.appendText("Tipo: " + translate(sensor.getType()) + " | Nome: " + sensor.getName() + "\n");
                             textArea.appendText("Valor mínimo: " + sensor.getMinValue() + " | Valor atual: " + sensor.getValue() + "\n");
@@ -150,7 +145,7 @@ public class ClientController implements Initializable {
                         });
 
                     } else {
-                        Platform.runLater (() -> {
+                        Platform.runLater(() -> {
                             textArea.appendText("Dados do sensor:\n");
                             textArea.appendText("Tipo: " + translate(sensor.getType()) + " | Nome: " + sensor.getName() + "\n");
                             textArea.appendText("Valor máximo: " + sensor.getMaxValue() + " | Valor atual: " + sensor.getValue() + "\n");
